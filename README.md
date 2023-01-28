@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="./img/CAr-riscv.png" alt="RISC-V Interpreter Logo" width="400">
+  <img src="./img/car-riscv.png" alt="RISC-V Interpreter Logo" width="400">
   <br>
   RISC-V Interpreter
   <br>

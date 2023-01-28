@@ -1,0 +1,131 @@
+body {
+    padding-bottom: 40px;
+}
+
+textarea {
+    resize: vertical;
+    width: 100%;
+}
+
+h1 {
+    padding-top:30px;
+    height: 100px; /* adjust as needed */
+}
+
+.logo {
+  background-image: url('./../img/car-riscv.png');
+  background-repeat: no-repeat;
+  background-size: 100px;
+  padding-left: 170px; /* adjust as needed */
+}
+
+#errors-container,
+#warning-container {
+    max-height: 300px;
+    overflow: scroll;
+}
+
+#errors {
+    font-family: monospace;
+}
+
+#credits{
+    margin: 10px;
+    font-family: sans-serif;
+    font-style: italic;
+    font-size: 12px;
+    float: right;
+}
+
+#recent-instruction {
+    font-family: monospace;
+    font-size: 12px;
+}
+
+#recent-instruction .current {
+    font-weight: bold;
+    color: #0074D9;
+}
+
+#opcode {
+    font-family: monospace;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.3em 0.6em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+}
+
+.badge-primary {
+  color: #fff;
+  background-color: #007bff;
+}
+
+.badge-secondary {
+  color: #fff;
+  background-color: #6c757d;
+}
+
+.badge-success {
+  color: #fff;
+  background-color: #28a745;
+}
+
+.badge-danger {
+  color: #fff;
+  background-color: #dc3545;
+}
+
+.badge-warning {
+  color: #212529;
+  background-color: #ffc107;
+}
+
+.badge-info {
+  color: #fff;
+  background-color: #17a2b8;
+}
+
+.badge-light {
+  color: #212529;
+  background-color: #f8f9fa;
+}
+
+.badge-dark {
+  color: #fff;
+  background-color: #343a40;
+}
+
+#registers,
+#memory {
+    font-family: monospace;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+#registers td,
+#memory td {
+    vertical-align: middle;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+#registers input.init-value {
+    width: 70px;
+    height: 1.5em;
+    color: #777;
+}
+
+#memory-table {
+    max-height: 600px;
+}
+

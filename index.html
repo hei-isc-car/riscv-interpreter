@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width">
     <title>RISC-V Interpreter</title>
-    <meta name="description" content="MIPS Assembly Interpreter written in Javascript">
+    <meta name="description" content="RISC-V Assembly Interpreter written in Javascript">
     <link rel="stylesheet" type="text/css" href="static/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="static/jquery-linedtextarea.css">
-    <link rel="stylesheet" type="text/css" href="static/mips.css">
+    <link rel="stylesheet" type="text/css" href="static/risc-v.css">
+    <link rel="icon" type="image/png" href="img/car-riscv.png"/>
 </head>
 <body>
     <div class="container">
         <div class="page-header">
-            <h1>RISC-V Interpreter</h1>
+            <h1 class="logo">RISC-V Interpreter</h1>
         </div>
         <div id="warnings-container" class="alert alert-warning" style="display: none;"></div>
         <div id="errors-container" class="alert alert-danger" style="display: none;">
@@ -65,20 +67,43 @@
                     <li>Set a breakpoint by clicking on the line number (only for <em>Run</em>)</li>
                     <li>View <a href="index.html#register-table">registers</a> on the right, <a href="index.html#memory-table">memory</a> on the bottom of this page</li>
                 </ul>
-                <h4>Supported Instructions</h4>
-                <ul>
-                    <li>Arithmetics: <code>ADD</code>, <code>ADDI</code>, <code>SUB</code></li>
-                    <li>Logical: <code>AND</code>,<code>ANDI</code>,<code>OR</code>,<code>ORI</code>,<code> XOR</code>,<code>XORI</code></li>
-                    <li>Sets: <code>SLT</code>, <code>SLTI</code>, <code>SLTU</code>, <code>SLTIU</code></li>
-                    <li>Shifts: <code>SRA</code>, <code>SRAI</code>, <code>SRL</code>, <code>SRLI</code><code>SLL</code>, <code>SLLI</code></li>
-		    <li>Memory: <code>LW</code>, <code>SW</code>, <code>LB</code>, <code>SB</code></li>
-		    <li>PC: <code>LUI</code>, <code>AUIPC</code></li>
-                    <li>Jumps: <code>JAL</code>, <code>JALR</code></li>
-                    <li>Branches: <code>BEQ</code>, <code>BNE</code>,<code>BLT</code>, <code>BGE</code>, <code>BLTU</code>, <code>BGEU</code></li>
-                </ul>
-                <p>RISC-V Reference: <a href="https://content.riscv.org/wp-content/uploads/2017/05/riscv-spec-v2.2.pdf">riscv-spec-v2.2.pdf</a></p>
+                <h4>Memory</h4>
+                <div class="form-inline text-center">
+                    <div class="form-group">
+                        <label for="memory-address">Memory Address</label>
+                        <input type="text" id="memory-address" class="form-control" placeholder="0x00000000" value="0x00000000">
+                    </div>
+                    <button id="memory-go" class="btn btn-primary">Go</button>
+                    <button id="memory-download" class="btn btn-primary">Download!</button>
+                </div>
+                <br>
+                <div id="memory-table" class="table-responsive">
+                    <table class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Memory Address</th>
+                                <th>Decimal</th>
+                                <th>Hex</th>
+                                <th>Binary</th>
+                            </tr>
+                        </thead>
+                        <tbody id="memory">
+                            <tr><td>0x00000000</td><td>0</td><td>0x00000000</td><td>0b00000000000000000000000000000000</td></tr>
+                            <tr><td>0x00000004</td><td>0</td><td>0x00000000</td><td>0b00000000000000000000000000000000</td></tr>
+                            <tr><td>0x00000008</td><td>0</td><td>0x00000000</td><td>0b00000000000000000000000000000000</td></tr>
+                            <tr><td>0x0000000c</td><td>0</td><td>0x00000000</td><td>0b00000000000000000000000000000000</td></tr>
+                            <tr><td>0x00000010</td><td>0</td><td>0x00000000</td><td>0b00000000000000000000000000000000</td></tr>
+                            <tr><td>0x00000014</td><td>0</td><td>0x00000000</td><td>0b00000000000000000000000000000000</td></tr>
+                            <tr><td>0x00000018</td><td>0</td><td>0x00000000</td><td>0b00000000000000000000000000000000</td></tr>
+                            <tr><td>0x0000001c</td><td>0</td><td>0x00000000</td><td>0b00000000000000000000000000000000</td></tr>
+                            <tr><td>0x00000020</td><td>0</td><td>0x00000000</td><td>0b00000000000000000000000000000000</td></tr>
+                            <tr><td>0x00000024</td><td>0</td><td>0x00000000</td><td>0b00000000000000000000000000000000</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="col-md-6">
+                <h4>Registers</h4>
                 <div id="register-table" class="table-responsive">
                     <table class="table table-hover table-condensed">
                         <thead>
@@ -132,39 +157,57 @@
         <hr>
         <div class="row">
             <div class="col-md-12">
-                <div class="form-inline text-center">
-                    <div class="form-group">
-                        <label for="memory-address">Memory Address</label>
-                        <input type="text" id="memory-address" class="form-control" placeholder="0x00000000" value="0x00000000">
-                    </div>
-                    <button id="memory-go" class="btn btn-primary">Go</button>
-                    <button id="memory-download" class="btn btn-primary">Download!</button>
-                </div>
-                <br>
-                <div id="memory-table" class="table-responsive">
+                <h4>Supported Instructions</h4>
+                <div id="register-table" class="table-responsive">
                     <table class="table table-hover table-condensed">
                         <thead>
                             <tr>
-                                <th>Memory Address</th>
-                                <th>Decimal</th>
-                                <th>Hex</th>
-                                <th>Binary</th>
+                                <th>Instr Type</th>
+                                <th>Instr</th>
+                                <th>Struct</th>
+                                <th>Operation</th>
+                                <th>Function</th>
+                                <th>Type</th>
                             </tr>
                         </thead>
-                        <tbody id="memory">
-                            <tr><td>0x00000000</td><td>0</td><td>0x00000000</td><td>0b00000000000000000000000000000000</td></tr>
-                            <tr><td>0x00000004</td><td>0</td><td>0x00000000</td><td>0b00000000000000000000000000000000</td></tr>
-                            <tr><td>0x00000008</td><td>0</td><td>0x00000000</td><td>0b00000000000000000000000000000000</td></tr>
-                            <tr><td>0x0000000c</td><td>0</td><td>0x00000000</td><td>0b00000000000000000000000000000000</td></tr>
-                            <tr><td>0x00000010</td><td>0</td><td>0x00000000</td><td>0b00000000000000000000000000000000</td></tr>
-                            <tr><td>0x00000014</td><td>0</td><td>0x00000000</td><td>0b00000000000000000000000000000000</td></tr>
-                            <tr><td>0x00000018</td><td>0</td><td>0x00000000</td><td>0b00000000000000000000000000000000</td></tr>
-                            <tr><td>0x0000001c</td><td>0</td><td>0x00000000</td><td>0b00000000000000000000000000000000</td></tr>
-                            <tr><td>0x00000020</td><td>0</td><td>0x00000000</td><td>0b00000000000000000000000000000000</td></tr>
-                            <tr><td>0x00000024</td><td>0</td><td>0x00000000</td><td>0b00000000000000000000000000000000</td></tr>
+                        <tbody>
+                            <tr><td>Arithmetics</td><td><code>add</code></td><td><span id="opcode">add rd, rs1, rs2</span></td><td><span id="opcode">rd = rs1 + rs2</span></td><td>Addition</td><td><span class="badge">R-Type</span></td></tr>
+                            <tr><td>Arithmetics</td><td><code>addi</code></td><td><span id="opcode">addi rd, rs1, imm</span></td><td><span id="opcode">rd = rs1 + imm</span></td><td>Addition Immediate</td><td><span class="badge">I-Type</span></td></tr>
+                            <tr><td>Arithmetics</td><td><code>sub</code></td><td><span id="opcode">sub rd, rs1, rs2</span></td><td><span id="opcode">rd = rs1 - rs2</span></td><td>Substraction</td><td><span class="badge">R-Type</span></td></tr>
+                            <tr><td>Logical</td><td><code>and</code></td><td><span id="opcode">and rd, rs1, rs2</span></td><td><span id="opcode">rd = rs1 & rs2</span></td><td>AND</td><td><span class="badge">R-Type</span></td></tr>
+                            <tr><td>Logical</td><td><code>andi</code></td><td><span id="opcode">andi rd, rs1, imm</span></td><td><span id="opcode">rd = rs1 & imm</span></td><td>AND Immediate</td><td><span class="badge">R-Type</span></td></tr>
+                            <tr><td>Logical</td><td><code>or</code></td><td><span id="opcode">or rd, rs1, rs2</span></td><td><span id="opcode">rd = rs1 | rs2</span></td><td>OR</td><td><span class="badge">R-Type</span></td></tr>
+                            <tr><td>Logical</td><td><code>ori</code></td><td><span id="opcode">ori rd, rs1, imm</span></td><td><span id="opcode">rd = rs1 | imm</span></td><td>OR Immediate</td><td><span class="badge">I-Type</span></td></tr>
+                            <tr><td>Logical</td><td><code>xor</code></td><td><span id="opcode">xor rd, rs1, rs2</span></td><td><span id="opcode">rd = rs1 ^ rs2</span></td><td>XOR</td><td><span class="badge">R-Type</span></td></tr>
+                            <tr><td>Logical</td><td><code>xori</code></td><td><span id="opcode">xori rd, rs1, imm</span></td><td><span id="opcode">rd = rs1 ^ imm</span></td><td>XOR Immediate</td><td><span class="badge">I-Type</span></td></tr>
+                            <tr><td>Sets</td><td><code>slt</code></td><td><span id="opcode">slt rd, rs1, rs2</span></td><td><span id="opcode">rd = (rs1 < rs2) ? 1:0</span></td><td>Set If Less Then</td><td><span class="badge">R-Type</span></td></tr>
+                            <tr><td>Sets</td><td><code>slti</code></td><td><span id="opcode">slti rd, rs1, imm</span></td><td><span id="opcode">rd = (rs1 < imm) ? 1:0</span></td><td>Set If Less Then Immediate</td><td><span class="badge">I-Type</span></td></tr>
+                            <tr><td>Sets</td><td><code>sltu</code></td><td><span id="opcode">sltu rd, rs1, rs2</span></td><td><span id="opcode">rd = (rs1 < rs2) ? 1:0</span></td><td>Set If Less Then Unsigned</td><td><span class="badge">R-Type</span></td></tr>
+                            <tr><td>Sets</td><td><code>sltiu</code></td><td><span id="opcode">sltiu rd, rs1, imm</span></td><td><span id="opcode">rd = (rs1 < imm) ? 1:0</span></td><td>Set If Less Then Immediate Unsigned</td><td><span class="badge">I-Type</span></td></tr>
+                            <tr><td>Shifts</td><td><code>sra</code></td><td><span id="opcode">sra rd, rs1, rs2</span></td><td><span id="opcode">rd = rs1 >> rs2</span></td><td>Shift Right Arithmetic</td><td><span class="badge">R-Type</span></td></tr>
+                            <tr><td>Shifts</td><td><code>srai</code></td><td><span id="opcode">srai rd, rs1, imm</span></td><td><span id="opcode">rd = rs1 >> imm</span></td><td>Shift Right Arithmetic Immediate</td><td><span class="badge">I-Type</span></td></tr>
+                            <tr><td>Shifts</td><td><code>srl</code></td><td><span id="opcode">srl rd, rs1, rs2</span></td><td><span id="opcode">rd = rs1 >> rs2</span></td><td>Shift Right Logical</td><td><span class="badge">R-Type</span></td></tr>
+                            <tr><td>Shifts</td><td><code>srli</code></td><td><span id="opcode">srli rd, rs1, imm</span></td><td><span id="opcode">rd = rs1 >> imm</span></td><td>Shift Right Logical Immediate</td><td><span class="badge">I-Type</span></td></tr>
+                            <tr><td>Shifts</td><td><code>sll</code></td><td><span id="opcode">sll rd, rs1, rs2</span></td><td><span id="opcode">rd = rs1 << rs2</span></td><td>Shift Left Logical</td><td><span class="badge">R-Type</span></td></tr>
+                            <tr><td>Shifts</td><td><code>slli</code></td><td><span id="opcode">slli rd, rs1, imm</span></td><td><span id="opcode">rd = rs1 << imm</span></td><td>Shift Left Logical Immediate</td><td><span class="badge">I-Type</span></td></tr>
+                            <tr><td>Memory</td><td><code>lw</code></td><td><span id="opcode">lw rd, imm(rs1)</span></td><td><span id="opcode">rd = Memory[rs1 + imm]</span></td><td>Load Word</td><td><span class="badge">I-Type</span></td></tr>
+                            <tr><td>Memory</td><td><code>sw</code></td><td><span id="opcode">sw rs2, imm(rs1)</span></td><td><span id="opcode">Memory[rs1 + imm] = rs2</span></td><td>Store Word</td><td><span class="badge">S-Type</span></td></tr>
+                            <tr><td>Memory</td><td><code>lb</code></td><td><span id="opcode">lb rd, imm(rs1)</span></td><td><span id="opcode">rd = Memory[rs1 + imm]</span></td><td>Load Byte</td><td><span class="badge">I-Type</span></td></tr>
+                            <tr><td>Memory</td><td><code>sb</code></td><td><span id="opcode">sb rs2, imm(rs1)</span></td><td><span id="opcode">Memory[rs1 + imm] = rs2</span></td><td>Store Byte</td><td><span class="badge">S-Type</span></td></tr>
+                            <tr><td>PC</td><td><code>lui</code></td><td><span id="opcode">lui rd, imm</span></td><td><span id="opcode">rd = imm</span></td><td>Load Upper Immediate</td><td><span class="badge">U-Type</span></td></tr>
+                            <tr><td>PC</td><td><code>auipc</code></td><td><span id="opcode">auipc rd, imm</span></td><td><span id="opcode">rd = PC + imm</span></td><td>Add Upper Immediate to PC</td><td><span class="badge">U-Type</span></td></tr>
+                            <tr><td>Jumps</td><td><code>jal</code></td><td><span id="opcode">jal rd label</span></td><td><span id="opcode">PC = label, rd = x0 = ra = PC + 4</span></td><td>Jump And Link, imm is shifted << 1</td><td><span class="badge">J-Type</span></td></tr>
+                            <tr><td>Jumps</td><td><code>jalr</code></td><td><span id="opcoIde">jalr rd, rs1, imm</span></td><td><span id="opcode">PC = rs1 + SignExt(imm), rd = PC + 4</span></td><td>Jump And Link Register</td><td><span class="badge">I-Type</span></td></tr>
+                            <tr><td>Branches</td><td><code>beq</code></td><td><span id="opcode">beq rs1, rs2, label</span></td><td><span id="opcode">rd = rs1 + rs2</span></td><td>Branch If Equal</td><td><span class="badge">B-Type</span></td></tr>
+                            <tr><td>Branches</td><td><code>bne</code></td><td><span id="opcode">bne rs1, rs2, label</span></td><td><span id="opcode">rd = rs1 + rs2</span></td><td>Branch if Not Equal</td><td><span class="badge">B-Type</span></td></tr>
+                            <tr><td>Branches</td><td><code>blt</code></td><td><span id="opcode">blt rs1, rs2, label</span></td><td><span id="opcode">rd = rs1 + rs2</span></td><td>Branch If Less Then</td><td><span class="badge">B-Type</span></td></tr>
+                            <tr><td>Branches</td><td><code>bge</code></td><td><span id="opcode">bge rs1, rs2, label</span></td><td><span id="opcode">rd = rs1 + rs2</span></td><td>Branch If Greater Than</td><td><span class="badge">B-Type</span></td></tr>
+                            <tr><td>Branches</td><td><code>bltu</code></td><td><span id="opcode">bltu rs1, rs2, label</span></td><td><span id="opcode">rd = rs1 + rs2</span></td><td>Branch If Less Then Unsigned</td><td><span class="badge">B-Type</span></td></tr>
+                            <tr><td>Branches</td><td><code>bgeu</code></td><td><span id="opcode">bgeu rs1, rs2, label</span></td><td><span id="opcode">rd = rs1 + rs2</span></td><td>Branch If Greater Then Unsigned</td><td><span class="badge">B-Type</span></td></tr>
                         </tbody>
                     </table>
                 </div>
+                <p>RISC-V Reference: <a href="https://riscv.org/wp-content/uploads/2017/05/riscv-spec-v2.2.pdf">riscv-spec-v2.2.pdf</a></p>
                 <div id="credits">Credit to Danny Qiu for the creation of the original MIPS interpreter.</div>
             </div>
         </div>
