@@ -63,32 +63,32 @@ h1 {
   border-radius: 0.25rem;
 }
 
-.badge-primary {
+.badge-r {
   color: #fff;
   background-color: #007bff;
 }
 
-.badge-secondary {
+.badge-J {
   color: #fff;
   background-color: #6c757d;
 }
 
-.badge-success {
+.badge-s {
   color: #fff;
   background-color: #28a745;
 }
 
-.badge-danger {
+.badge-u {
   color: #fff;
   background-color: #dc3545;
 }
 
-.badge-warning {
+.badge-i {
   color: #212529;
   background-color: #ffc107;
 }
 
-.badge-info {
+.badge-b {
   color: #fff;
   background-color: #17a2b8;
 }
