@@ -207,6 +207,33 @@
                         </tbody>
                     </table>
                 </div>
+            <h4>Supported Registers</h4>
+                <div id="register-table" class="table-responsive">
+                    <table class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Register</th>
+                                <th>ABI Name</th>
+                                <th>Description/th>
+                                <th>Saver</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><span id="opcode">x0</span></td><td><span id="opcode">zero</span></td><td>Hard-wired zero</td><td>-</td></tr>
+                            <tr><td><span id="opcode">x1</span></td><td><span id="opcode">ra</span></td><td>Return Address</td><td><span class="badge badge-light">Caller</span></td></tr>
+                            <tr><td><span id="opcode">x2</span></td><td><span id="opcode">sp</span></td><td>Stack Pointer</td><td><span class="badge badge-dark">Callee</span></td></tr>
+                            <tr><td><span id="opcode">x3</span></td><td><span id="opcode">gp</span></td><td>Global Pointer</td><td>-</td></tr>
+                            <tr><td><span id="opcode">x4</span></td><td><span id="opcode">tp</span></td><td>Thread Pointer</td><td>-</td></tr>
+                            <tr><td><span id="opcode">x5</span></td><td><span id="opcode">t0</span></td><td>Temporary / alternate link register</td><td><span class="badge badge-light">Caller</span></td></tr>
+                            <tr><td><span id="opcode">x6-x7</span></td><td><span id="opcode">t1-t2</span></td><td>Temporaries</td><td><span class="badge badge-light">Caller</span></td></tr>
+                            <tr><td><span id="opcode">x8</span></td><td><span id="opcode">s0/fp</span></td><td>Saved Register</td><td><span class="badge badge-dark">Callee</span></td></tr>
+                            <tr><td><span id="opcode">x9</span></td><td><span id="opcode">s1</span></td><td>Saved register</td><td><span class="badge badge-dark">Callee</span></td></tr>
+                            <tr><td><span id="opcode">x10-x11</span></td><td><span id="opcode">a0-a1</span></td><td>Function arguments/return values</td><td><span class="badge badge-light">Caller</span></td></tr>
+                            <tr><td><span id="opcode">x12-x17</span></td><td><span id="opcode">a2-a7</span></td><td>Function arguments</td><td><span class="badge badge-light">Caller</span></td></tr>
+                            <tr><td><span id="opcode">x18-x27</span></td><td><span id="opcode">s2-s11</span></td><td>Saved Registers</td><td><span class="badge badge-dark">Callee</span></td></tr>
+                            <tr><td><span id="opcode">x28-x31</span></td><td><span id="opcode">t3-t6</span></td><td>Temporaries</td><td><span class="badge badge-light">Caller</span></td></tr>
+                        </tbody>
+                    </table>
                 <p>RISC-V Reference: <a href="https://riscv.org/wp-content/uploads/2017/05/riscv-spec-v2.2.pdf">riscv-spec-v2.2.pdf</a></p>
                 <div id="credits">Credit to Danny Qiu for the creation of the original MIPS interpreter and to the Cornell University with it's course "CS340 - Computer System Organization and Programming" for the adaptation to RISC-V.</div>
             </div>
