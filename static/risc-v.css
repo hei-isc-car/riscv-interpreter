@@ -10,10 +10,30 @@ textarea {
 h1 {
     padding-top:30px;
     height: 100px; /* adjust as needed */
+    position:relative;
 }
 
+h1 {
+    position: relative;
+}
+h1::after {
+    content: "";
+    background-image: url('hei-en.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 250px; /* adjust as needed */
+    /*height: 30px; /* adjust as needed */
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 10px;
+    bottom: 0;
+    margin: auto;
+}
+
+
 .logo {
-  background-image: url('./../img/car-riscv.png');
+  background-image: url('car-riscv.svg');
   background-repeat: no-repeat;
   background-size: 100px;
   padding-left: 170px; /* adjust as needed */
@@ -35,6 +55,7 @@ h1 {
     font-style: italic;
     font-size: 12px;
     float: right;
+    text-align:right;
 }
 
 #recent-instruction {
