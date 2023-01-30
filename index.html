@@ -157,8 +157,52 @@
         <hr>
         <div class="row">
             <div class="col-md-12">
-                <h4>Supported Instructions</h4>
+                <div>
+                    <h4>Supported Instructions</h4>
+                    <br><br>
+                    <b><i>SIMULATOR SET</i></b>
+                    <label class="switch">
+                      <input type="checkbox" id="isa_cb" onclick="changeRegSet(this);" value="off">
+                      <span class="slider round"></span>
+                    </label>
+                    <b><i>HEIRV32</i></b>
+                    <br><br>
+                </div>
+                <div id="register-table-heirv" class="table-responsive" style="display:none">
+                    HEIRV32 ISA
+                    <table class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Instr Type</th>
+                                <th>Instr</th>
+                                <th>Struct</th>
+                                <th>Operation</th>
+                                <th>Function</th>
+                                <th>Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Arithmetics</td><td><code>add</code></td><td><span id="opcode">add rd, rs1, rs2</span></td><td><span id="opcode">rd = rs1 + rs2</span></td><td>Addition</td><td><span class="badge badge-r">R-Type</span></td></tr>
+                            <tr><td>Arithmetics</td><td><code>addi</code></td><td><span id="opcode">addi rd, rs1, imm</span></td><td><span id="opcode">rd = rs1 + SignExt(imm)</span></td><td>Addition Immediate</td><td><span class="badge badge-i">I-Type</span></td></tr>
+                            <tr><td>Arithmetics</td><td><code>sub</code></td><td><span id="opcode">sub rd, rs1, rs2</span></td><td><span id="opcode">rd = rs1 - rs2</span></td><td>Substraction</td><td><span class="badge badge-r">R-Type</span></td></tr>
+                            <tr><td>Logical</td><td><code>and</code></td><td><span id="opcode">and rd, rs1, rs2</span></td><td><span id="opcode">rd = rs1 & rs2</span></td><td>AND</td><td><span class="badge badge-r">R-Type</span></td></tr>
+                            <tr><td>Logical</td><td><code>andi</code></td><td><span id="opcode">andi rd, rs1, imm</span></td><td><span id="opcode">rd = rs1 & SignExt(imm)</span></td><td>AND Immediate</td><td><span class="badge badge-r">R-Type</span></td></tr>
+                            <tr><td>Logical</td><td><code>or</code></td><td><span id="opcode">or rd, rs1, rs2</span></td><td><span id="opcode">rd = rs1 | rs2</span></td><td>OR</td><td><span class="badge badge-r">R-Type</span></td></tr>
+                            <tr><td>Logical</td><td><code>ori</code></td><td><span id="opcode">ori rd, rs1, imm</span></td><td><span id="opcode">rd = rs1 | SignExt(imm)</span></td><td>OR Immediate</td><td><span class="badge badge-i">I-Type</span></td></tr>
+                            <tr><td>Sets</td><td><code>slt</code></td><td><span id="opcode">slt rd, rs1, rs2</span></td><td><span id="opcode">rd = (rs1 < rs2) ? 1:0</span></td><td>Set If Less Then</td><td><span class="badge badge-r">R-Type</span></td></tr>
+                            <tr><td>Sets</td><td><code>slti</code></td><td><span id="opcode">slti rd, rs1, imm</span></td><td><span id="opcode">rd = (rs1 < SignExt(imm)) ? 1:0</span></td><td>Set If Less Then Immediate</td><td><span class="badge badge-i">I-Type</span></td></tr>
+                            <tr><td>Memory</td><td><code>lw</code></td><td><span id="opcode">lw rd, imm(rs1)</span></td><td><span id="opcode">rd = Memory[(rs1 + imm)[31:0]]</span></td><td>Load Word</td><td><span class="badge badge-i">I-Type</span></td></tr>
+                            <tr><td>Memory</td><td><code>sw</code></td><td><span id="opcode">sw rs2, imm(rs1)</span></td><td><span id="opcode">Memory[(rs1 + imm)[31:0]] = rs2</span></td><td>Store Word</td><td><span class="badge badge-s">S-Type</span></td></tr>
+                            <tr><td>Jumps</td><td><code>jal</code></td><td><span id="opcode">jal rd label</span></td><td><span id="opcode">PC = label, rd = x0 = ra = PC + 4</span></td><td>Jump And Link, imm is shifted << 1</td><td><span class="badge badge-j">J-Type</span></td></tr>
+                            <tr><td>Branches</td><td><code>beq</code></td><td><span id="opcode">beq rs1, rs2, label</span></td><td><span id="opcode">if(rs1 == rs2) PC = label</span></td><td>Branch If Equal</td><td><span class="badge badge-b">B-Type</span></td></tr>
+                            <tr><td><i>Pseudo</i></td><td><code>nop</code></td><td><span id="opcode">nop</span></td><td><span id="opcode">addi x0 x0 0</span></td><td>No operation <b><i>(DO NOT USE IN SIMULATOR !)</i></b></td><td><span class="badge badge-i">I-Type</span></td></tr>
+                            <tr><td><i>Pseudo</i></td><td><code>mv</code></td><td><span id="opcode">mv rd rs1</span></td><td><span id="opcode">addi rd rs1 0</span></td><td>Move register to another <b><i>(DO NOT USE IN SIMULATOR !)</i></b></td><td><span class="badge badge-i">I-Type</span></td></tr>
+                            <tr><td><i>Pseudo</i></td><td><code>li</code></td><td><span id="opcode">li rd imm</span></td><td><span id="opcode">addi rd x0 imm</span></td><td>Load immediate <b><i>(DO NOT USE IN SIMULATOR !)</i></b></td><td><span class="badge badge-i">I-Type</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
                 <div id="register-table" class="table-responsive">
+                    Simulator set
                     <table class="table table-hover table-condensed">
                         <thead>
                             <tr>
@@ -561,4 +605,25 @@
         }
     </script>
     <script src="static/downloader.js"></script>
+
+
+
+    <script>
+        window.onload = (event) => {
+          document.getElementById("isa_cb").checked = false;
+        };
+
+        // Display the instruction set based on checkbox value
+        function changeRegSet(cb){
+            var base_table = document.querySelectorAll("[id='register-table']")[1];
+            var heirv_table = document.getElementById("register-table-heirv");
+            if (cb.checked) {
+              heirv_table.style.display = "block";
+              base_table.style.display = "none";
+            } else {
+              heirv_table.style.display = "none";
+              base_table.style.display = "block";
+            }
+        }
+    </script>
 </body>
