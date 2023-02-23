@@ -7,7 +7,9 @@
 </h1>
 A [fork](https://www.cs.cornell.edu/courses/cs3410/2019sp/riscv/interpreter/) from RISC-V Interpreter in Javascript.
 
-The static pages are served under: [http://course.hevs.io/car/riscv-interpreter](http://course.hevs.io/car/riscv-interpreter)
+The static pages are served under:
+* Gitlab - [http://course.hevs.io/car/riscv-interpreter](http://course.hevs.io/car/riscv-interpreter)
+* Github - [https://hei-isc-car.github.io/riscv-interpreter](https://hei-isc-car.github.io/riscv-interpreter)
 
 
 # Thanks
