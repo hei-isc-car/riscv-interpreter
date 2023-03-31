@@ -529,6 +529,18 @@ class Program {
                     this.verifyTokenTypes(tokens, [this.TOKEN_TYPE_REG, this.TOKEN_TYPE_IMM, this.TOKEN_TYPE_REG], "lw rs1, rs2, imm");
                     this.lb(tokens[0], tokens[1], tokens[2]);
                     break;
+                case "lbu":
+                    this.verifyTokenTypes(tokens, [this.TOKEN_TYPE_REG, this.TOKEN_TYPE_IMM, this.TOKEN_TYPE_REG], "lw rs1, rs2, imm");
+                    this.lbu(tokens[0], tokens[1], tokens[2]);
+                    break;
+                case "lh":
+                    this.verifyTokenTypes(tokens, [this.TOKEN_TYPE_REG, this.TOKEN_TYPE_IMM, this.TOKEN_TYPE_REG], "lw rs1, rs2, imm");
+                    this.lh(tokens[0], tokens[1], tokens[2]);
+                    break;
+                case "lhu":
+                    this.verifyTokenTypes(tokens, [this.TOKEN_TYPE_REG, this.TOKEN_TYPE_IMM, this.TOKEN_TYPE_REG], "lw rs1, rs2, imm");
+                    this.lhu(tokens[0], tokens[1], tokens[2]);
+                    break;
                 case "sb":
                     this.verifyTokenTypes(tokens, [this.TOKEN_TYPE_REG, this.TOKEN_TYPE_IMM, this.TOKEN_TYPE_REG], "sw rs1, rs2, imm");
                     this.sb(tokens[0], tokens[1], tokens[2]);
@@ -804,6 +816,34 @@ class Program {
         var loc = imm + this.registers[rs1];
         this.verifyMemory(loc);
         if(rd != 0) this.registers[rd] = this.bit_ext_imm(this.memory.getMem(loc), 8);
+    }
+
+    lbu(rd, imm, rs1) {
+        imm = this.bit_limit_imm(imm, 12);
+        imm = this.bit_ext_imm(imm, 12);
+        var loc = imm + this.registers[rs1];
+        this.verifyMemory(loc);
+        if(rd != 0) this.registers[rd] = this.memory.getMem(loc) & 0xFF;
+    }
+
+    lh(rd, imm, rs1) {
+        imm = this.bit_limit_imm(imm, 12);
+        imm = this.bit_ext_imm(imm, 12);
+        var loc = imm + this.registers[rs1];
+        this.verifyMemory(loc, loc+1);
+
+        var lsb = this.memory.getMem(loc);
+        var byte2 = this.memory.getMem(loc+1) << 8;
+        if(rd != 0) this.registers[rd] = this.bit_ext_imm(byte2 + lsb, 16);
+    }
+
+    lhu(rd, imm, rs1) {
+        imm = this.bit_limit_imm(imm, 12);
+        var loc = imm + this.registers[rs1];
+        this.verifyMemory(loc);
+        var lsb = this.memory.getMem(loc);
+        var byte2 = this.memory.getMem(loc+1) << 8;
+        if(rd != 0) this.registers[rd] = (byte2 + lsb) & 0xFFFF;
     }
 
     sb(rs2, imm, rs1) {
